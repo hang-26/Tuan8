@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.oneexcerciseactivity.databinding.FileInterfaceBinding
 
-class FileAdapter(val files: List<FileData>):
+class FileAdapter(var files: List<FileData>):
     RecyclerView.Adapter<FileAdapter.FileViewHolder>() {
     lateinit var binding: FileInterfaceBinding
 
@@ -18,8 +18,12 @@ class FileAdapter(val files: List<FileData>):
     }
 
     override fun onBindViewHolder(holder: FileViewHolder, position: Int) {
-        val listFile = files[holder.adapterPosition]
+        val listFile = files[position]
         val view = holder.binding
+        view.tvName.text = listFile.name
+        view.tvPath.text = listFile.path
+        view.tvSize.text = listFile.size.toString()
+        view.ivIcon.setImageResource(listFile.icon)
     }
 
     override fun getItemCount(): Int {

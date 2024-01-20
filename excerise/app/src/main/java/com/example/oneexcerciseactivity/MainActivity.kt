@@ -28,8 +28,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setEvent() {
-        binding.tvNotAccount.setOnClickListener(View.OnClickListener {
-            var i: Intent = Intent(this, RegisterActivity::class.java)
+        binding.tvSignup.setOnClickListener(View.OnClickListener {
+            var intent  = Intent(this, RegisterActivity::class.java)
 //            startActivity(i)
             startForResult.launch(intent)
 

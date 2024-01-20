@@ -27,13 +27,18 @@ class RegisterActivity : AppCompatActivity() {
             val userName = binding.etUserName.text.toString()
             val pass = binding.etPassword.text.toString()
             val rePass = binding.etPassword.text.toString()
-            if (rePass == pass) {
-                mySharedPreferences.putUserValues(userName, pass)
-                Toast.makeText(this, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
-                var intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
+            if (userName.isEmpty() || pass.isEmpty() || rePass.isEmpty() )
+            {
+                Toast.makeText(this, "Nhập mật khẩu pasword", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "Nhắc lại mật khẩu phải khớp ", Toast.LENGTH_SHORT).show()
+                if (rePass == pass) {
+                    mySharedPreferences.putUserValues(userName, pass)
+                    Toast.makeText(this, "Đăng ký thành công", Toast.LENGTH_SHORT).show()
+                    var intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(this, "Nhắc lại mật khẩu phải khớp ", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
