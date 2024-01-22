@@ -45,24 +45,25 @@ class RecyclerViewActivity : AppCompatActivity() {
 
     private fun setEnvent() {
         binding.btScan.setOnClickListener {
-            status = true
+            status = !status
 
             if (status == true) {
+                binding.btScan.setText("Tiếp tục tìm kiếm")
                 CoroutineScope (Dispatchers.IO).launch {
                     val files = scanMemoryCard()
+                    delay (1000)
                     withContext(Dispatchers.Main) {
                         filesMode.addAll(files)
                         fileAdapter.notifyDataSetChanged()
+                        checkProgress()
                     }
-                    delay (1000)
+
                 }
+            } else {
+                binding.btScan.setText("Tạm dừng tìm kiếm")
             }
         }
 
-        binding.btStop.setOnClickListener {
-            Toast.makeText(this, "Tạm dừng tìm kiếm", Toast.LENGTH_SHORT).show()
-            status = false
-        }
     }
 
     fun checkAndRequestExternal() {
@@ -75,15 +76,14 @@ class RecyclerViewActivity : AppCompatActivity() {
                 READ_EXTERNAL_STORAGE_REQUEST
             )
         } else {
-            binding.btScan.setOnClickListener {
                 Toast.makeText(this, "Đã cấp quyền", Toast.LENGTH_SHORT).show()
                 setEnvent()
-            }
+
         }
     }
 
      fun scanMemoryCard(): List<FileData> {
-         // Sử dụng mediaStore để cập nhật danh sách ảnh
+         // Sử dụng mediaStore để cập nhật danh sách
         val files = mutableListOf<FileData>()
 
         val uri = MediaStore.Files.getContentUri("external")
@@ -135,24 +135,24 @@ class RecyclerViewActivity : AppCompatActivity() {
         }
     }
 
-//    suspend fun updateProcessBar() {
-//        val process
-////        val process = caculateProgress()
-//        withContext(Dispatchers.Main) {
-//            binding.pbProcessBar.progress = process
-//            if (process == 100) {
-//                binding.pbProcessBar.visibility = View.GONE
-//            } else {
-//                binding.pbProcessBar.visibility = View.VISIBLE
-//            }
-//        }
-//    }
 
-//    fun caculateProgress(): Int {
-//        var totalMemory = Environment.getExternalStorageDirectory().totalSpace
-//        var freeMediaStore = Environment.getExternalStorageDirectory().freeSpace
-//        totalMemory = totalMemory / 1024
-//        freeMediaStore = freeMediaStore / 1024
-//    }
+    fun checkProgress() {
+        var totalMemory = Environment.getExternalStorageDirectory().totalSpace
+        var freeMemory = Environment.getExternalStorageDirectory().freeSpace
+
+
+        binding.tvTotal.text = "Tổng: ${cacularMemory(totalMemory)}"
+        binding.tvFree.text = "Trống: ${cacularMemory(freeMemory)}"
+        binding.tvScan.text = "Đã quét: ${filesMode.size.toString()}"
+    }
+
+    fun cacularMemory(size: Long): String {
+        val fileSizeInkB = size/1024
+        when {
+            fileSizeInkB < 1024 -> return "$fileSizeInkB Kb"
+            fileSizeInkB < 1024 * 1024 -> return  "${fileSizeInkB / 1024} Mb"
+            else -> return "${fileSizeInkB / (1024 * 1024)} Gb"
+        }
+    }
 
 }
