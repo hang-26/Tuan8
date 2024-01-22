@@ -1,4 +1,4 @@
-package com.example.towexcercises
+package com.example.oneexcerciseactivity.towexcercises
 
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +22,7 @@ class FileAdapter(var files: List<FileData>):
         val view = holder.binding
         view.tvName.text = listFile.name
         view.tvPath.text = listFile.path
-        view.tvSize.text = listFile.size.toString()
+        view.tvSize.text = formatFileSize(listFile.size)
         view.ivIcon.setImageResource(listFile.icon)
     }
 
@@ -34,4 +34,16 @@ class FileAdapter(var files: List<FileData>):
     class FileViewHolder(val binding: FileInterfaceBinding):
         RecyclerView.ViewHolder(binding.root) {
     }
+
+    fun formatFileSize(size: Long): String {
+        // Implement logic to format file size (e.g., KB, MB, GB)
+        val fileSizeInkB = size/1024
+        when  {
+            fileSizeInkB < 1024 -> return "$fileSizeInkB KB"
+            fileSizeInkB < 1024 * 1024 -> return "${fileSizeInkB / 1024} MB"
+            else -> return "${fileSizeInkB / (1024 * 1024)} GB"
+        }
+        return "$size Bytes"
+    }
+
 }
