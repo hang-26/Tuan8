@@ -31,6 +31,8 @@
         app:layout_constraintTop_toTopOf="@id/tv_label_name"
         app:layout_constraintBottom_toBottomOf="@id/tv_label_name"
         android:layout_marginHorizontal="@dimen/dp8"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="Tên của file"/>
     <TextView
         android:id="@+id/tv_label_path"
@@ -44,11 +46,13 @@
     <TextView
         android:id="@+id/tv_path"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_constraintStart_toEndOf="@+id/tv_label_path"
         app:layout_constraintTop_toTopOf="@id/tv_label_path"
         app:layout_constraintBottom_toBottomOf="@id/tv_label_path"
         android:layout_marginHorizontal="@dimen/dp8"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="Đường dẫn của file"/>
     <TextView
         android:id="@+id/tv_label_size"
